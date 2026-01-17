@@ -8,17 +8,29 @@ Use this image to execute foundry commands and build solidity files with solc or
 Take a look at [Foundry official website](https://getfoundry.sh/introduction/overview).
 
 # Build image
+```
 docker build . -t foundry
+```
 
+Set an alias for convenience
+```
 alias foundry='docker run --rm -it -v $(pwd)/work:/work -v $(pwd)/keystore:/root/.foundry/keystores foundry'
+```
 
 # Use it
 ## Create the sample Wallet
+```
 foundry cast wallet net
+```
 
 ## Save the private key into a Keystore
+```
 foundry cast wallet import sample-wallet --private-key 0xcc5de0454f23ed6c48471eba2a3a3b956eb17d9224b6a9faa05ca5933a9c0c49
+```
+
+Keystore will be created into **keystore** folder given as volume. 
 
 ## Retrieve wallet address
+```
 foundry cast wallet address --account sample-wallet
-
+```
