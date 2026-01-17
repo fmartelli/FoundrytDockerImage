@@ -5,7 +5,7 @@ Foundry manages your dependencies, compiles your project, runs tests, deploys, a
 Use this image to execute foundry commands and build solidity files with solc or projects with Foundry forge command.
 </pre>
 
-See at [Foundry official website](https://getfoundry.sh/introduction/overview).
+Take a look at [Foundry official website](https://getfoundry.sh/introduction/overview).
 
 # Build image
 docker build . -t foundry
