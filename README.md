@@ -1,11 +1,7 @@
 # Introduction
-<pre>
-Foundry is a smart contract development toolchain.
+According to [Foundry official website](https://getfoundry.sh/introduction/overview), Foundry is a smart contract development toolchain.<br />
 Foundry manages your dependencies, compiles your project, runs tests, deploys, and lets you interact with the chain from the command-line and via Solidity scripts.
 Use this image to execute foundry commands and build solidity files with solc or projects with Foundry forge command.
-</pre>
-
-Take a look at [Foundry official website](https://getfoundry.sh/introduction/overview).
 
 # Build image
 ```
