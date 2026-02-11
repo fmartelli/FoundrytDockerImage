@@ -11,7 +11,7 @@ docker build . -t foundry
 
 Set an alias for convenience
 ```
-alias foundry='docker run --rm -it -v $(pwd)/work:/work -v $(pwd)/keystore:/root/.foundry/keystores foundry'
+alias foundry='docker run --rm -it --user 1000:1000 -v $(pwd)/work:/work -v $(pwd)/keystore:/root/.foundry/keystores -e HOME="/work" foundry'
 ```
 
 # Use it
