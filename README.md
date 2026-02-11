@@ -152,9 +152,9 @@ contract FBAToken is ERC20 {
 }
 ```
 
-Build it by using the following command.
+Build it and the whole project by using the following command.
 ```
 foundry forge build --root /work/fba
 ```
 
-Please note defined volumes: absolute path /work into the container corresponds to local work directory.
+Please note, as per the given volumes, absolute path */work* into the container corresponds to the local *work* directory.
