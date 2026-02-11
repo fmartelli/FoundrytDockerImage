@@ -112,3 +112,49 @@ foundry cast send --account sample-wallet <contract address> \
 0x00f714ce000000000000000000000000000000000000000000000000000000e8d4a510000000000000000000000000008faac2110455e3a1f8b49ef97eac7d2d47311241 \
 --rpc-url https://ethereum-sepolia-rpc.publicnode.com
 ```
+
+# Tokens
+In order to create your own token you ca create a directory and init it with forge command.
+
+The image can be used to init a token project directory but we need to use a script.
+
+Consider the following *FBAInit.sh* script, for instance, to initialize *work/fba* project directory.
+```
+#!/bin/bash
+
+if [ ! -d /work/FBAToken ]; then
+  mkdir /work/fab
+fi;
+
+git config --global --add safe.directory /work/fba
+
+cd /work/fba
+forge init --force
+forge install OpenZeppelin/openzeppelin-contracts
+```
+
+Now you can use it to initialize your token project directory.
+```
+foundry sh /work/FBAInit.sh
+```
+
+Create a very simple *FBAToken.sol* into the project and build it.
+
+```
+pragma solidity 0.8.28;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract FBAToken is ERC20 {
+  constructor (uint256 initialSupply) ERC20("FBAToken", "FBA") {
+    _mint(msg.sender, initialSupply);
+  }
+}
+```
+
+Build it by using the following command.
+```
+foundry forge build --root /work/fba
+```
+
+Please note defined volumes: absolute path /work into the container corresponds to local work directory.
