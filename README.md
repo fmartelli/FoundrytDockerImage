@@ -127,9 +127,8 @@ foundry cast send --account sample-wallet <contract address> \
 ```
 
 # Tokens
-In order to create your own token you ca create a directory and init it with forge command.
-
-The image can be used to init a token project directory but we need to use a script.
+In order to create your own token you can create a directory and init it with forge command.<br />
+Foundry container can be used to init a token project directory by leveraging on a shell script.
 
 Consider the following *FBAInit.sh* script, for instance, to initialize *work/fba* project directory.
 ```
@@ -151,7 +150,8 @@ Now you can use it to initialize your token project directory.
 foundry sh /work/FBAInit.sh
 ```
 
-Create a very simple *work/fba/src/FBAToken.sol* and build it.
+## Create and build a token contract
+Create a very simple token contract *work/fba/src/FBAToken.sol* and build it.
 
 ```
 pragma solidity 0.8.28;
@@ -172,6 +172,7 @@ foundry forge build --root /work/fba
 
 Note: based on the defined volume mappings, the container path **/work** corresponds to the local **work** directory.
 
+## Deploy a token contract
 Let's set up **work/fba/script/FBAToken.s.sol** deploy script to install FBA Token contract to the blockchain.
 
 ```
