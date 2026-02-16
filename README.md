@@ -9,12 +9,25 @@ This image can be used to execute Foundry commands and build Solidity files with
 docker build . -t foundry
 ```
 
-Set an alias for convenience
+Set two aliases for convenience.
+
+The former is to run Foundry commands.
 ```
-alias foundry='docker run --rm -it --user 1000:1000 -v $(pwd)/work:/work -v $(pwd)/keystore:/root/.foundry/keystores -e HOME="/work" foundry'
+alias foundry='docker run --rm -it --user 1000:1000 -v $(pwd)/work:/work -v $(pwd)/keystore:/root/.foundry/keystores -e HOME="/work" --add-host=host.docker.internal:host-gateway --name foundry foundry'
 ```
 
-# Use it
+The latter is for Anvil, a local Ethereum development node provided by Foundry.
+```
+alias anvil='docker run --rm -it -p 8545:8545 --name anvil -v $(pwd)/work:/work foundry'
+```
+
+Please note **--add-host=host.docker.internal:host-gateway** Docker run option that manually adds a hostname-to-IP mapping inside Foundry container.<br />
+Inside the container, create a hostname called host.docker.internal that resolves to the Docker host machine.<br />
+We need this configuration in order to deploy on Anvil docker container from the Foundry's.
+
+We will use Anvil later, talking about Tokens.
+
+# Getting Started with Foundry
 ## Create the sample Wallet
 ```
 foundry cast wallet net
@@ -157,4 +170,55 @@ Build it and the whole project by using the following command.
 foundry forge build --root /work/fba
 ```
 
-Please note, as per the given volumes, absolute path */work* into the container corresponds to the local *work* directory.
+Note: based on the defined volume mappings, the container path **/work** corresponds to the local **work** directory.
+
+Let's set up **work/fba/script/FBAToken.s.sol** deploy script to install FBA Token contract to the blockchain.
+
+```
+pragma solidity 0.8.28;
+
+import {Script, console} from "forge-std/Script.sol";
+import {CobraToken} from "../src/FBAToken.sol";
+
+contract FBAScript is Script {
+    FBAToken public _fba;
+
+    function run() public {
+	      console.log("Sender:", msg.sender);
+
+        vm.startBroadcast();
+
+        _fba = new FBAToken(50_000_000e18);
+
+        vm.stopBroadcast();
+    }
+}
+```
+We can deploy on a local blockchain to test everithing before going on an Ethereum test network.<br />
+As anticipated, we can use Anvil.
+
+Execute the following command to run Anvil.
+```
+anvil anvil --host 0.0.0.0
+```
+
+By default Anvil will bind on localhost interface (127.0.0.1). This interface is not accessible outside the container so we have to force binding on 0.0.0.0 by providing *--host* option.
+
+At start time, Anvil shows in console the following information to be used for testing purposes.
+
++ Available Accounts
++ Private Keys
++ Wallet
++ Chain ID
++ Base Fee
++ Gas Limit
++ Genesis Timestamp
++ Genesis Number
++ Listening IP and port (0.0.0.0:8545)
+
+Now we can use Foundry container to build and run the script to deploy the token contract on our local blockchain.
+```
+foundry forge script /work/fba/script/FBAToken.s.sol --broadcast --rpc-url "http://host.docker.internal:8545" --root /work/fba --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+```
+
+Please note, *--root* option. Thjis is relevant in order to enable Foundry to find all the dependency required by the contracty to deploy. Without this option /work folder will be used as default and the *forge* command will fail.
