@@ -151,12 +151,12 @@ Now you can use it to initialize your token project directory.
 foundry sh /work/FBAInit.sh
 ```
 
-Create a very simple *FBAToken.sol* into the project and build it.
+Create a very simple *work/fba/src/FBAToken.sol* and build it.
 
 ```
 pragma solidity 0.8.28;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract FBAToken is ERC20 {
   constructor (uint256 initialSupply) ERC20("FBAToken", "FBA") {
@@ -178,13 +178,13 @@ Let's set up **work/fba/script/FBAToken.s.sol** deploy script to install FBA Tok
 pragma solidity 0.8.28;
 
 import {Script, console} from "forge-std/Script.sol";
-import {CobraToken} from "../src/FBAToken.sol";
+import {FBAToken} from "../src/FBAToken.sol";
 
 contract FBAScript is Script {
     FBAToken public _fba;
 
     function run() public {
-	      console.log("Sender:", msg.sender);
+		console.log("Sender:", msg.sender);
 
         vm.startBroadcast();
 
