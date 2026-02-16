@@ -222,3 +222,10 @@ foundry forge script /work/fba/script/FBAToken.s.sol --broadcast --rpc-url "http
 ```
 
 Please note, *--root* option. Thjis is relevant in order to enable Foundry to find all the dependency required by the contracty to deploy. Without this option /work folder will be used as default and the *forge* command will fail.
+
+Moreover, please note the *--broadcast* option. Without this flag, Foundry would just simulate the transaction.
+
+FBAToken contract could be created without any deployment script as well. We can do it just by using forge's *create* command as shown below.
+```
+foundry forge create FBAToken --broadcast --rpc-url "http://host.docker.internal:8545" --root /work/fba --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --constructor-args 50000000000000000000000000
+```
